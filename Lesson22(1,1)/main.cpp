@@ -7,69 +7,68 @@ using namespace std;
 
 int main() {
 
-	Student student;
+    Student student;
 
-	using Setter = void (Student::*)(char*);
-	Setter setters[] = { &Student::setFirstName,
-						 &Student::setSecondName,
-						 &Student::setFatherName,
-						 &Student::setEducationName,
-						 &Student::setEducationCity,
-						 &Student::setEducationCountru,
-						 &Student::setBirthDate,
-						 &Student::setPhoneNumber,
-						 &Student::setCity };
+    using Setter = void (Student::*)(char*);
+    Setter setters[] = {
+        &Student::setFirstName,
+        &Student::setSecondName,
+        &Student::setFatherName,
+        &Student::setEducationName,
+        &Student::setEducationCity,
+        &Student::setEducationCountru,
+        &Student::setBirthDate,
+        &Student::setPhoneNumber,
+        &Student::setCity
+    };
 
-	while (true) {
+    while (true) {
 
-		student.showStudent();
+        student.showStudent();
 
-		cout << "\nSelect operation:\n";
-		cout << "Person:\n"
-			<< "1. Set firstname student\n"
-			<< "2. Set secondname student\n"
-			<< "3. Set fathername student\n"
-			<< "\nEducation:\n"
-			<< "4. Set name colleg\n"
-			<< "5. Set city colleg\n"
-			<< "6. Set countru colleg\n"
-			<< "\nOthers:\n"
-			<< "7. Set birth data\n"
-			<< "8. Set phone\n"
-			<< "9. Set city\n"
-			<< "0. Exit program\n"
-			<< "Choice: ";
+        cout << "\nSelect operation:\n"
+            << "1. Set firstname\n"
+            << "2. Set secondname\n"
+            << "3. Set fathername\n"
+            << "4. Set college name\n"
+            << "5. Set college city\n"
+            << "6. Set college country\n"
+            << "7. Set birth date\n"
+            << "8. Set phone\n"
+            << "9. Set city\n"
+            << "0. Exit\n"
+            << "Choice: ";
 
-		char c[10];
-		cin.getline(c, 10);
+        char c;
+        cin >> c;
+        cin.ignore(); 
 
-		if (cin.fail()) {
-			cin.clear();
-			cin.ignore(10000, '\n');
-			cout << "\nInvalid input!" << endl;
-			continue;
-		}
+        if (c == '0') {
+            cout << "Exit program...";
+            break;
+        }
 
-		if (c[0] == '0') {
-			cout << "Exit program...";
-			break;
-		}
+        if (c < '1' || c > '9') {
+            cout << "Invalid choice!\n";
+            continue;
+        }
 
-		if (c[0] < '1' || c[0] > '9' || strlen(c) != 1) {
-			cout << "Invalid choice...";
-			continue;
-		}
+        cout << "Enter data: ";
 
-		int choice = c[0] - '0';
+        char buffer[31];
+        cin.getline(buffer, 31);
 
-		cout << "Enter data: ";
-		char buffer[31];
-		if (!student.getValidInput(buffer, 31)) continue;
+        if (strlen(buffer) == 0 || strlen(buffer) >= 31) {
+            cout << "Invalid input!\n";
+            continue;
+        }
 
-		(student.*setters[choice - 1])(buffer);
-		cout << "Operation complete!" << endl;
-		continue;
-	}
+        int choice = c - '1';
 
-	return 0;
+        (student.*setters[choice])(buffer);
+
+        cout << "Operation complete!\n";
+    }
+
+    return 0;
 }
