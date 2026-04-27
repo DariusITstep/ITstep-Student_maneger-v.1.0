@@ -1,56 +1,87 @@
 #pragma once
 #include <iostream>
-#include <iomanip>
 #include <cstring>
 
 using namespace std;
 
 const int maxSize = 31;
 
-// ---------------- STRUCTS ----------------
-
-struct PIP {
+// ----------- PIP -----------
+class PIP {
+private:
     char firstName[maxSize];
     char secondName[maxSize];
     char fathersName[maxSize];
+
+    bool isValid(const char* str);
+
+public:
+    PIP();
+
+    bool setFirstName(const char* str);
+    bool setSecondName(const char* str);
+    bool setFatherName(const char* str);
+
+    void show() const;
 };
 
-struct Education {
+// ----------- Education -----------
+class Education {
+private:
     char nameE[maxSize];
     char cityE[maxSize];
-    char countruE[maxSize];
+    char countryE[maxSize];
+
+    bool isValid(const char* str);
+
+public:
+    Education();
+
+    bool setName(const char* str);
+    bool setCity(const char* str);
+    bool setCountry(const char* str);
+
+    void show() const;
 };
 
-struct Others {
+// ----------- Others -----------
+class Others {
+private:
     char birthDate[maxSize];
     char phoneNumber[maxSize];
     char city[maxSize];
-};
 
-// ---------------- CLASS ----------------
-
-class Student {
-
-private:
-    PIP* P;
-    Education E;
-    Others O;
+    bool isValid(const char* str);
 
 public:
-    Student();
-    ~Student();
+    Others();
 
-    void showStudent();
+    bool setBirthDate(const char* str);
+    bool setPhone(const char* str);
+    bool setCity(const char* str);
 
-    void setFirstName(char newD[]);
-    void setSecondName(char newD[]);
-    void setFatherName(char newD[]);
+    void show() const;
+};
 
-    void setEducationName(char newD[]);
-    void setEducationCity(char newD[]);
-    void setEducationCountru(char newD[]);
+// ----------- Student -----------
+class Student {
+private:
+    PIP pip;
+    Education edu;
+    Others oth;
 
-    void setBirthDate(char newD[]);
-    void setPhoneNumber(char newD[]);
-    void setCity(char newD[]);
+public:
+    bool setFirstName(char d[]);
+    bool setSecondName(char d[]);
+    bool setFatherName(char d[]);
+
+    bool setEducationName(char d[]);
+    bool setEducationCity(char d[]);
+    bool setEducationCountry(char d[]);
+
+    bool setBirthDate(char d[]);
+    bool setPhone(char d[]);
+    bool setCity(char d[]);
+
+    void showStudent() const;
 };

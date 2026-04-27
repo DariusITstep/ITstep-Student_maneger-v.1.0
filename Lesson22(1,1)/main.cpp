@@ -1,5 +1,4 @@
 #include <iostream>
-#include <iomanip>
 #include <cstring>
 #include "Student.h"
 
@@ -9,16 +8,16 @@ int main() {
 
     Student student;
 
-    using Setter = void (Student::*)(char*);
+    using Setter = bool (Student::*)(char*);
     Setter setters[] = {
         &Student::setFirstName,
         &Student::setSecondName,
         &Student::setFatherName,
         &Student::setEducationName,
         &Student::setEducationCity,
-        &Student::setEducationCountru,
+        &Student::setEducationCountry,
         &Student::setBirthDate,
-        &Student::setPhoneNumber,
+        &Student::setPhone,
         &Student::setCity
     };
 
@@ -41,33 +40,27 @@ int main() {
 
         char c;
         cin >> c;
-        cin.ignore(); 
+        cin.ignore();
 
-        if (c == '0') {
-            cout << "Exit program...";
-            break;
-        }
+        if (c == '0') break;
 
         if (c < '1' || c > '9') {
             cout << "Invalid choice!\n";
             continue;
         }
 
+        char buffer[maxSize];
         cout << "Enter data: ";
-
-        char buffer[31];
-        cin.getline(buffer, 31);
-
-        if (strlen(buffer) == 0 || strlen(buffer) >= 31) {
-            cout << "Invalid input!\n";
-            continue;
-        }
+        cin.getline(buffer, maxSize);
 
         int choice = c - '1';
 
-        (student.*setters[choice])(buffer);
-
-        cout << "Operation complete!\n";
+        if ((student.*setters[choice])(buffer)) {
+            cout << "Operation complete!\n";
+        }
+        else {
+            cout << "Invalid input!\n";
+        }
     }
 
     return 0;
